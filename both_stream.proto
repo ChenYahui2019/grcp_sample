@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+//option go_package = "path;name";
+//path 表示生成的go文件的存放地址，会自动生成目录的。
+//name 表示生成的go文件所属的包名
+option go_package="./;main";
+// 定义包名
+//package proto;
+
+// 定义流式请求信息
+message StreamRequest{
+    //流请求参数
+    string question = 1;
+}
+
+// 定义流式响应信息
+message StreamResponse{
+    //流响应数据
+    string answer = 1;
+}
+
+
+//双向流式rpc，只要在请求的参数前和响应参数前都添加stream即可
+service Stream{
+    // 双向流式rpc，同时在请求参数前和响应参数前加上stream
+    rpc Conversations(stream StreamRequest) returns(stream StreamResponse){};
+}
+
+const HEALTHCHECK_SERVICE = "grpc.health.v1.Health"
